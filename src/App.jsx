@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, ArrowRight, Zap, Headphones, Smartphone, MessageCircle, Truck, Home, CreditCard, Camera } from "lucide-react";
+import { Search, ArrowRight, Zap, Headphones, Cable, MessageCircle, Truck, Home, CreditCard, Camera, Sun, Moon } from "lucide-react";
 import "./App.css"; // <-- Importação do CSS adicionada aqui
 
 /* ==========================================================
@@ -26,155 +26,90 @@ function whatsappLink(productName) {
    quando preenchido, a foto substitui o ícone automaticamente.
 ========================================================== */
 const PRODUTOS = {
-  capas: [
+  carregadores: [
     {
-      nome: "Capa Silicone Premium",
-      compat: "iPhone 12 · 13 · 14",
-      desc: "Silicone premium com acabamento interno aveludado que evita riscos. Bordas elevadas protegem câmera e tela.",
-      preco: "49,90",
-      glyph: "📱",
-      imagem: "/case.jpg",
-      novo: true,
-    },
-    {
-      nome: "Capa Antishock Reforçada",
-      compat: "iPhone 12 · 13 · 14 · 15",
-      desc: "Proteção reforçada contra quedas e impactos, sem perder o toque fino e confortável no dia a dia.",
-      preco: "59,90",
-      glyph: "🛡️",
-      imagem: "/case.jpg",
-    },
-    {
-      nome: "Capa MagSafe Transparente",
-      compat: "iPhone 13 · 14 · 15",
-      desc: "Compatível com carregamento magnético, mantém o design original visível com transparência cristalina.",
-      preco: "69,90",
-      glyph: "✨",
-      imagem: "/case.jpg",
-    },
-    {
-      nome: "Capa Aveludada Soft Touch",
-      compat: "Samsung S23 · S24",
-      desc: "Toque macio e sofisticado, com encaixe perfeito e excelente durabilidade no uso diário.",
-      preco: "54,90",
-      glyph: "🖤",
-      imagem: "/case.jpg",
-    },
-    {
-      nome: "Capa Transparente Anti-Amarelamento",
-      compat: "iPhone 14 · 15",
-      desc: "Material especial que não amarela com o tempo, mantendo a transparência por muito mais tempo.",
-      preco: "44,90",
-      glyph: "💎",
-      imagem: "/case.jpg",
-    },
-  ],
-  energia: [
-    {
-      nome: "Carregador Turbo 30W USB-C",
-      compat: "Universal",
-      desc: "Carregamento rápido e seguro para smartphones compatíveis, com proteção contra superaquecimento.",
-      preco: "69,90",
+      nome: "Carregador USB-C 45W",
+      compat: "iPhone 15 ou superior, Samsung Galaxy, Motorola, Xiaomi",
+      desc: "Carregador com tecnologia PD e PPS, pensado para recargas mais rápidas e eficientes. Acompanha cabo USB-C para USB-C, ideal para quem quer praticidade em um único kit.",
+      preco: "32,00",
       glyph: "⚡",
-      imagem: "/charger.jpg",
-      novo: true,
+      imagem: "/Carregador tipo c 45w.png",
     },
     {
-      nome: "Fonte Dupla USB 20W",
-      compat: "Universal",
-      desc: "Duas portas para carregar dois aparelhos ao mesmo tempo, com entrega de energia estável.",
-      preco: "49,90",
-      glyph: "🔌",
-      imagem: "/charger.jpg",
-    },
+      nome: "Carregador Turbo 5.1A com Cabo USB-C",
+      compat: "iPhone 15 ou superior, Samsung Galaxy, Motorola, Xiaomi",
+      desc: "Kit com carregador turbo e cabo USB-C de 1 metro, ideal para quem busca recargas rápidas e praticidade em um só conjunto.",
+      preco: "28,00",
+      glyph: "⚡",
+      imagem: "/carregador tipo c turbo 1m.png",
+      
+    }
+    
+  ],
+  cabos: [
     {
-      nome: "Cabo Lightning Reforçado 1m",
-      compat: "iPhone",
-      desc: "Trançado em nylon resistente a dobras, feito para durar muito mais que o cabo convencional.",
-      preco: "34,90",
+      nome: "Cabo Micro USB V8 ",
+      compat: "Galaxy J2/J5/J7, Moto G",
+      desc: "Cabo de 1 metro para carregamento rápido e transferência de dados, prático para usar no dia a dia.",
+      preco: "10,00",
       glyph: "🔗",
-      imagem: "/charger.jpg",
+      imagem: "/cabo v8.png",
     },
     {
-      nome: "Cabo USB-C Nylon Trançado",
-      compat: "Universal",
-      desc: "Transmissão rápida de dados e energia, com acabamento premium que resiste ao uso diário.",
-      preco: "29,90",
+      nome: "Cabo Carregador USB-C",
+      compat: "iPhone 15 ou superior, Samsung Galaxy e outros",
+      desc: "Conexão USB-C prática e versátil para manter seus dispositivos carregados em casa, no trabalho ou onde precisar.",
+      preco: "10,00",
       glyph: "🔗",
-      imagem: "/charger.jpg",
-    },
-    {
-      nome: "Carregador Veicular Turbo",
-      compat: "Universal",
-      desc: "Duas saídas USB para carregar rápido durante o trajeto, com encaixe firme na saída do veículo.",
-      preco: "44,90",
-      glyph: "🚗",
-      imagem: "/charger.jpg",
-    },
-    {
-      nome: "Power Bank 10000mAh",
-      compat: "Universal",
-      desc: "Autonomia extra para o dia todo, com design compacto que cabe fácil na bolsa ou mochila.",
-      preco: "99,90",
-      glyph: "🔋",
-      imagem: "/charger.jpg",
+      imagem: "/Cabo tipo c soltoo.png",
     },
   ],
-  audio: [
+  fones: [
     {
-      nome: "Fone Bluetooth TWS Pro",
+      nome: "Fone Bluetooth M1",
       compat: "Universal",
-      desc: "Som nítido, conexão estável e case compacto com carregamento portátil para o dia a dia.",
-      preco: "129,90",
+      desc: "Fone sem fio com Bluetooth 5.3 e estojo com display digital, ideal para músicas, chamadas e uso no dia a dia.",
+      preco: "60,00",
       glyph: "🎧",
-      imagem: "/headphone.jpg",
-      novo: true,
+      imagem: "/fone azul sem fio azul.png",
+       novo: true,
+      
     },
     {
-      nome: "Headset Gamer RGB",
+      nome: "Fone Gamer Bluetooth",
       compat: "Universal",
-      desc: "Áudio imersivo com microfone destacável, ideal para jogos e chamadas com alta clareza.",
-      preco: "149,90",
+      desc: "Fone sem fio com visual gamer, estojo com display de bateria e encaixe compacto para jogar, ouvir música e usar no dia a dia.",
+      preco: "44,00",
       glyph: "🎮",
-      imagem: "/headphone.jpg",
-    },
-    {
-      nome: "Caixa de Som Bluetooth Portátil",
-      compat: "Universal",
-      desc: "Graves potentes em um corpo compacto, resistente a respingos e perfeita para qualquer ambiente.",
-      preco: "89,90",
-      glyph: "🔊",
-      imagem: "/headphone.jpg",
+      imagem: "/fone gamer.png",
+     
     },
     {
       nome: "Fone Bluetooth Esportivo",
       compat: "Universal",
-      desc: "Encaixe firme e resistente ao suor, pensado para treinos e atividades físicas intensas.",
-      preco: "79,90",
+      desc: "Fone estéreo sem fio com Bluetooth 5.1 e estojo com visor digital, oferecendo praticidade para músicas, chamadas e uso diário.",
+      preco: "70,00",
       glyph: "🏃",
-      imagem: "/headphone.jpg",
+      imagem: "/fonr estereo.png",
     },
   ],
 };
 
 const CATEGORIAS_INFO = {
-  capas: {
-    label: "Capas",
-    emoji: "📱",
-    desc: "Proteção premium para seu smartphone.",
-    mediaBg: "linear-gradient(155deg,#F5F5F5 0%,#ECECEC 100%)",
-  },
-  energia: {
+  carregadores: {
     label: "Carregadores",
     emoji: "⚡",
-    desc: "Carregadores, cabos e fontes Turbo.",
     mediaBg: "linear-gradient(155deg,#F5EBFA 0%,#EDDCF6 100%)",
   },
-  audio: {
+  cabos: {
+    label: "Cabos",
+    emoji: "🔌",
+    mediaBg: "linear-gradient(155deg,#F2ECFA 0%,#E9E0F6 100%)",
+  },
+  fones: {
     label: "Fones",
     emoji: "🎧",
-    desc: "Fones Bluetooth e acessórios.",
-    mediaBg: "linear-gradient(155deg,#F2ECFA 0%,#E9E0F6 100%)",
+    mediaBg: "linear-gradient(155deg,#F5F5F5 0%,#ECECEC 100%)",
   },
 };
 
@@ -266,7 +201,7 @@ function BrandMark() {
 ========================================================== */
 function CategoryCard({ id, categoria, onClick }) {
   const info = CATEGORIAS_INFO[categoria];
-  const icons = { capas: Smartphone, energia: Zap, audio: Headphones };
+  const icons = { carregadores: Zap, cabos: Cable, fones: Headphones };
   const Icon = icons[categoria];
 
   return (
@@ -290,11 +225,20 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [search, setSearch] = useState("");
   const [filtro, setFiltro] = useState("todos");
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light";
+    return localStorage.getItem("theme") || "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const sectionRefs = {
-    capas: useRef(null),
-    energia: useRef(null),
-    audio: useRef(null),
+    carregadores: useRef(null),
+    cabos: useRef(null),
+    fones: useRef(null),
   };
 
   useEffect(() => {
@@ -331,23 +275,31 @@ export default function App() {
               <small>Fortaleza · CE</small>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={() => window.open(whatsappLink("Catálogo Magia Tech"), "_blank")}>
-            <MessageCircle size={18} />
-            Fazer Pedido
-          </button>
+          <div className="header-actions">
+            <button
+              className="btn theme-toggle"
+              onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
+              aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+              title={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+            >
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button className="btn btn-primary" onClick={() => window.open(whatsappLink("Catálogo Magia Tech"), "_blank")}>
+              <MessageCircle size={18} />
+              Fazer Pedido
+            </button>
+          </div>
         </div>
       </header>
 
       {/* HERO */}
       <section className="hero">
         <div className="container hero-inner">
-          <div className="eyebrow">
-            <span className="dot" /> Loja especializada em Fortaleza
-          </div>
+          
           <h1>
-            Acessórios de <span className="accent-word">alta performance</span> para o seu smartphone.
+            Seu próximo <span className="accent-word">acessório </span> favorito está aqui.
           </h1>
-          <p>Qualidade garantida, curadoria premium e entrega rápida. Peça em segundos, direto pelo WhatsApp.</p>
+          <p>Fones, cabos, carregadores e muito mais para facilitar seu dia. Role e encontre o seu.</p>
           <div className="hero-actions">
             <button
               className="btn btn-primary btn-lg"
@@ -357,7 +309,7 @@ export default function App() {
               Fazer Pedido
             </button>
             <div className="hero-meta">
-              <strong>+30</strong> produtos disponíveis para pronta entrega
+              <strong>+10</strong> itens disponíveis para pronta entrega
             </div>
           </div>
         </div>
@@ -379,13 +331,13 @@ export default function App() {
             <Search size={18} />
             <input
               type="text"
-              placeholder="Buscar produto... (ex: capa, cabo, fone)"
+              placeholder="Buscar produto... (ex: fone, cabo, carregador)"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="filters">
-            {["todos", "capas", "energia", "audio"].map((f) => (
+            {["todos", "carregadores", "cabos", "fones"].map((f) => (
               <button key={f} className={`chip ${filtro === f ? "active" : ""}`} onClick={() => setFiltro(f)}>
                 {f === "todos" ? "Todos" : CATEGORIAS_INFO[f].label}
               </button>
@@ -438,7 +390,7 @@ export default function App() {
                   Magia Tech
                 </div>
               </div>
-              <p>Os melhores acessórios e produtos de tecnologia.</p>
+              <p>Fones, cabos e carregadores com qualidade e atendimento rápido.</p>
             </div>
 
             <div className="footer-col">
