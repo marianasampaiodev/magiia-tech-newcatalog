@@ -272,7 +272,7 @@ export default function App() {
             <BrandMark />
             <div className="brand-name">
               Magia Tech
-              <small>Fortaleza · CE</small>
+            
             </div>
           </div>
           <div className="header-actions">
